@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="template.html">
+<head>
+    <meta charset="UTF-8">
+    <title>PRODUCT TRACKER</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="card col-md-8 offset-md-2">
+        <div class="card-header text-center">
+            <h2 th:text="${type}" > </h2>
+        </div>
+        <div class="card-body">
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" th:value="${key}" th:name="key" >
+                <button class="btn btn-outline-success" type="submit">Search</button>
+                <a th:if="${#authorization.expression('hasRole(''ADMIN'')')}" th:href="@{/products/admin/addClothingForm(pageNumber=${currentPage})}" class="btn btn-success m-1" th:text="|ADD ${type}|"></a>
+            </form>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>NAME</th>
+                    <th>DESCRIPTION</th>
+                    <th>Color</th>
+                    <th>Price</th>
+                    <th>Age</th>
+                    <th>size</th>
+                    <th>PROVIDER ID</th>
+                    <th>QUANTITY</th>
+                    <th th:if="${#authorization.expression('hasRole(''ADMIN'')')}">ACTIONS</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="product : ${products}">
+                        <td th:text="${product.id}"></td>
+                        <td th:text="${product.name}"></td>
+                        <td th:text="${product.description}"></td>
+                        <td th:text="${product.color}"></td>
+                        <td th:text="${product.price}"></td>
+                        <td th:text="${product.age}"></td>
+                        <td th:text="${product.size}"></td>
+                        <td th:text="${product.provider.id}"></td>
+                        <td th:text="${product.quantity}"></td>
+                        <td>
+                            <a th:if="${#authorization.expression('hasRole(''ADMIN'')')}" th:href="@{/products/admin/updateClothingFrom(id=${product.id},pageNumber=${currentPage})}"  class="btn btn-outline-info" >EDIT</a>
+                            <a       th:href="@{/products/admin/deleteCloth(pageNumber=${currentPage},productNumber=${products.getContent().size()},id=${product.id})}"
+                                     onclick=" return confirm('are sure to delete')"    th:if="${#authorization.expression('hasRole(''ADMIN'')')}"    class="btn btn-outline-info" >DELETE</a>                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+            <div>
+                <ul class="nav nav-pills ">
+                    <li th:each="page,status:${pages}">
+                        <a th:href="@{/products/user/clothing(pageNumber=${status.index})}" th:text="${status.index+1}"
+                        th:class="${status.index==currentPage ? 'btn btn-info m-2':'btn btn-outline-info m-2'}"
+                        ></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

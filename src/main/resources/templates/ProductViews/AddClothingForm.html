@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="template.html">
+<head>
+    <meta charset="UTF-8">
+    <title>PRODUCT TRACKER</title>
+</head>
+<body>
+<div layout:fragment="content">
+
+
+<div class="card col-md-8 offset-md-2">
+    <div class="card-header text-center">
+        <h1>ADD CLOTHING</h1>
+    </div>
+    <div class="card-body">
+        <form th:action="@{/products/admin/addClothing(pageNumber=${pageNumber})}" method="post" th:object="${clothing}">
+            <input type="hidden" th:field="*{id}"/>
+            <div class="form-group m-3">
+                <label for="name" class="m-1">Name :</label>
+                <input type="text" id="name" class="form-control" placeholder="clothing name" th:field="*{name}">
+                <span class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color: red; font-weight: bold;"></span>
+
+            </div>
+            <div class="form-group m-3">
+                <label for="description" class="m-1">Description :</label>
+                <input type="text" id="description" placeholder="clothing description" class="form-control"
+                       th:field="*{description}">
+            </div>
+            <div class="form-group m-3">
+                <label for="price" class="m-1">Price :</label>
+                <input type="text" id="price" placeholder="clothing price" class="form-control" th:field="*{price}">
+                <span class="error" th:if="${#fields.hasErrors('price')}" th:errors="*{price}" style="color: red; font-weight: bold;"></span>
+
+            </div>
+
+            <div class="form-group m-3">
+                <label for="color" class="m-1">Color :</label>
+                <input type="text" id="color" placeholder="clothing Color" class="form-control"
+                       th:field="*{color}">
+            </div>
+            <div class="form-group m-3">
+                <label for="size" class="m-1">Size :</label>
+                <input type="text" id="size" placeholder="clothing size" class="form-control"
+                       th:field="*{size}">
+            </div>
+            <div class="form-group m-3">
+                <label for="age" class="m-1">Age :</label>
+                <input type="text" id="age" placeholder="clothing age size" class="form-control"
+                       th:field="*{size}">
+            </div>
+            <div class="form-group m-3">
+                <label for="quantity" class="m-1">quantity :</label>
+                <input type="text" id="quantity" placeholder="quantity " class="form-control"
+                       th:field="*{quantity}">
+                <span class="error" th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}" style="color: red; font-weight: bold;"></span>
+
+            </div>
+
+            <div class="form-group m-3">
+                <label for="provider">Provider:</label>
+                <select id="provider" th:field="*{provider}" required>
+                    <option value="">-- Select a Provider --</option>
+                    <option th:each="provider : ${providers}"
+                            th:value="${provider.id}"
+                            th:text="${provider.nom}">
+                    </option>
+                </select>
+
+            </div>
+            <div class="flex d-flex ">
+                <button type="submit" class="btn btn-primary m-1">Save</button>
+                <a th:href="@{/products/user/clothing(pageNumber=${pageNumber})}" class="btn btn-secondary m-1">Cancel</a>
+            </div>
+        </form>
+
+    </div>
+</div>
+</div>
+
+</body>
+</html>

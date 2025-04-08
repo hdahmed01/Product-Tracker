@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="template.html">
+<head>
+    <meta charset="UTF-8">
+    <title>PRODUCT TRACKER</title>
+</head>
+<body>
+<div layout:fragment="content">
+
+
+    <div class="card col-md-8 offset-md-2">
+        <div class="card-header text-center">
+            <h1>ADD PRODUCT </h1>
+        </div>
+        <div class="card-body">
+            <form th:action="@{/products/admin/addProduct(pageNumber=${pageNumber},key=${key})}" method="post" th:object="${product}">
+                <input type="hidden" th:field="*{id}"/>
+                <div class="form-group m-3">
+                    <label for="name" class="m-1">Name :</label>
+                    <input type="text" id="name" class="form-control" th:value="${product.name}"  th:field="*{name}">
+                </div>
+                <div class="form-group m-3">
+                    <label for="description" class="m-1">Description :</label>
+                    <input type="text" id="description" th:value="${product.description}" class="form-control"
+                           th:field="*{description}">
+                </div>
+                <div class="form-group m-3">
+                    <label for="price" class="m-1">Price :</label>
+                    <input type="text" id="price" th:value="${product.price}" class="form-control" th:field="*{price}">
+                </div>
+                <div class="form-group m-3">
+                    <label for="quantity" class="m-1">Quantity :</label>
+                    <input type="text" id="quantity" th:value="${product.quantity}" class="form-control"
+                           th:field="*{quantity}">
+                </div>
+                <div class="form-group m-3">
+                    <label for="provider">Provider:</label>
+                    <select id="provider" th:field="*{provider}" th:value="${product.provider}" required>
+                        <option value="">-- Select a Provider --</option>
+                        <option th:each="provider : ${providers}"
+                                th:value="${provider.id}"
+                                th:text="${provider.nom}">
+                        </option>
+                    </select>
+                </div>
+                <div class="flex d-flex ">
+                    <button type="submit" class="btn btn-primary m-1">Update</button>
+                    <a th:href="@{/products/user/ListProducts(pageNumber=${pageNumber})}" class="btn btn-secondary m-1">Cancel</a>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
